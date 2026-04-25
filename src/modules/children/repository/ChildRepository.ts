@@ -58,5 +58,10 @@ export class ChildRepository {
     return this.data.get(id) || null;
   }
 
-  // Pode-se estender aqui métodos de criação/atualização se necessário (in-memory update)
+  public async update(child: Child): Promise<void> {
+    if (!this.data.has(child.id)) {
+      throw new Error(`Child with id ${child.id} not found.`);
+    }
+    this.data.set(child.id, child);
+  }
 }
