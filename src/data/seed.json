@@ -1,0 +1,15 @@
+[
+  {
+    "id": "c001",
+    "nome": "Ana Clara Mendes",
+    "data_nascimento": "2020-03-15",
+    "bairro": "Rocinha",
+    "responsavel": "Maria Mendes",
+    "saude": { "ultima_consulta": "2025-11-10", "vacinas_em_dia": true, "alertas": [] },
+    "educacao": { "escola": "CIEP 305", "frequencia_percent": 61, "alertas": ["frequencia_baixa"] },
+    "assistencia_social": { "cad_unico": true, "beneficio_ativo": true, "alertas": [] },
+    "revisado": false, "revisado_por": null, "revisado_em": null
+  },
+  { "id": "c003", "educacao": null },
+  { "id": "c015", "saude": null, "educacao": null, "assistencia_social": null }
+]

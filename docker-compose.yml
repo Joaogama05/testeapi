@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: monitoring-app
+    # Mapeando a porta 3000 do host para a porta 3000 no contêiner
+    # Isso expõe o site localmente no Windows em http://localhost:3000/
+    ports:
+      - "3000:3000"
+    environment:
+      # Variáveis de ambiente da aplicação
+      NODE_ENV: production
+      PORT: 3000
+    # Volumes de leitura para facilitar o desenvolvimento não são aplicados
+    # pois a imagem roda em standalone production.
+    restart: unless-stopped
+
+  # Banco de Dados (PostgreSQL) - Comentado por simplicidade no desafio!
+  # Conforme requisitado, estamos usando memória + Singleton da classe ChildRepository.
+  # Para um ambiente produtivo real, basta descomentar as variáveis abaixo e aplicar a lógica de conexão no ORM:
+  #
+  # db:
+  #   image: postgres:15-alpine
+  #   container_name: monitoring-db
+  #   environment:
+  #     POSTGRES_USER: admin
+  #     POSTGRES_PASSWORD: password
+  #     POSTGRES_DB: monitoringdb
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - ./pgdata:/var/lib/postgresql/data
