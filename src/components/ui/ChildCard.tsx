@@ -30,13 +30,28 @@ export function ChildCard({ child, onReview }: { child: Child, onReview: (id: st
         </div>
       </div>
 
-      {hasAnyAlert && (
-        <div className="mb-4 space-y-1">
-          {hasSaudeAlert && <div className="text-xs text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 px-2 py-1 rounded">⚠️ Saúde: {child.saude?.alertas.join(', ')}</div>}
-          {hasEducacaoAlert && <div className="text-xs text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 px-2 py-1 rounded">⚠️ Educação: {child.educacao?.alertas.join(', ')}</div>}
-          {hasSocialAlert && <div className="text-xs text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 px-2 py-1 rounded">⚠️ Social: {child.assistencia_social?.alertas.join(', ')}</div>}
+      <div className="mb-4">
+        <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-2 uppercase tracking-wider">Status das Áreas</p>
+        <div className="space-y-1.5">
+          {hasSaudeAlert ? (
+            <div className="text-xs text-red-700 dark:text-red-400 bg-red-50 dark:bg-red-900/20 px-2.5 py-1.5 rounded border border-red-100 dark:border-red-800/30">⚠️ Saúde: {child.saude?.alertas.join(', ')}</div>
+          ) : (
+            <div className="text-xs text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 px-2.5 py-1.5 rounded border border-emerald-100 dark:border-emerald-800/30">✅ Saúde: Sem alertas</div>
+          )}
+          
+          {hasEducacaoAlert ? (
+            <div className="text-xs text-red-700 dark:text-red-400 bg-red-50 dark:bg-red-900/20 px-2.5 py-1.5 rounded border border-red-100 dark:border-red-800/30">⚠️ Educação: {child.educacao?.alertas.join(', ')}</div>
+          ) : (
+            <div className="text-xs text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 px-2.5 py-1.5 rounded border border-emerald-100 dark:border-emerald-800/30">✅ Educação: Sem alertas</div>
+          )}
+
+          {hasSocialAlert ? (
+            <div className="text-xs text-red-700 dark:text-red-400 bg-red-50 dark:bg-red-900/20 px-2.5 py-1.5 rounded border border-red-100 dark:border-red-800/30">⚠️ Social: {child.assistencia_social?.alertas.join(', ')}</div>
+          ) : (
+            <div className="text-xs text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 px-2.5 py-1.5 rounded border border-emerald-100 dark:border-emerald-800/30">✅ Social: Sem alertas</div>
+          )}
         </div>
-      )}
+      </div>
 
       <div className="pt-3 border-t border-slate-100 dark:border-slate-700 flex justify-end">
         <button 
