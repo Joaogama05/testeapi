@@ -1,5 +1,4 @@
-fix(layout): prevent flex/grid blowout causing horizontal viewport scaling on mobile
+docs: update future improvements in README
 
-- Adicionado `overflow-x-hidden` no body para forçar o viewport a respeitar 100vw, evitando vazamento horizontal que "encolhe" o layout principal.
-- Adicionado `min-w-0` e `overflow-hidden` no container do Recharts para garantir que o SVG redimensione perfeitamente sem forçar a largura do grid parent.
-- Adicionado `break-words` nas tags de alertas dos cards para evitar que textos sem espaços (ex: `cadastro_desatualizado`) quebrem o limite do card em celulares pequenos.
+- Substituição da pipeline de testes E2E por opções mais impressionantes focadas na dor do negócio do desafio.
+- Adicionadas menções à arquitetura Offline-First (PWA) e Sincronização em Tempo Real (WebSockets).
