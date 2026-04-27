@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Child } from "@/modules/children/domain/Child";
 import { ChildCard } from "./ChildCard";
@@ -17,6 +17,11 @@ export function ChildList({
   const router = useRouter();
   const [data, setData] = useState<Child[]>(initialData);
   const [isUpdating, setIsUpdating] = useState(false);
+
+  // Sync state when server data changes due to URL searchParams navigation
+  useEffect(() => {
+    setData(initialData);
+  }, [initialData]);
 
   const handleFilterChange = (key: string, value: string) => {
     const params = new URLSearchParams(window.location.search);
@@ -67,6 +72,19 @@ export function ChildList({
     <div className="space-y-6">
       {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-900/50 p-4 rounded-lg border border-slate-100 dark:border-slate-800">
+        <input
+          type="text"
+          placeholder="Buscar por nome ou ID..."
+          className="flex-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
+          defaultValue={currentFilters.search || ""}
+          onBlur={(e) => handleFilterChange("search", e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              handleFilterChange("search", e.currentTarget.value);
+            }
+          }}
+        />
+
         <select 
           className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
           value={currentFilters.revisado !== undefined ? currentFilters.revisado.toString() : ""}

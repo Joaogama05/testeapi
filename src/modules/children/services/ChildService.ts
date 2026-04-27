@@ -5,6 +5,7 @@ export interface FilterOptions {
   bairro?: string;
   tem_alertas?: boolean;
   revisado?: boolean;
+  search?: string;
 }
 
 export interface PaginationOptions {
@@ -50,6 +51,12 @@ export class ChildService {
         : children,
       (children: Child[]) => filters.revisado !== undefined
         ? children.filter(c => c.revisado === filters.revisado)
+        : children,
+      (children: Child[]) => filters.search
+        ? children.filter(c => 
+            (c.nome && c.nome.toLowerCase().includes(filters.search!.toLowerCase())) || 
+            c.id.includes(filters.search!)
+          )
         : children
     ];
 

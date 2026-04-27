@@ -21,6 +21,9 @@ export async function GET(request: NextRequest) {
     if (searchParams.has('revisado')) {
       filters.revisado = searchParams.get('revisado') === 'true';
     }
+    if (searchParams.has('search')) {
+      filters.search = searchParams.get('search') as string;
+    }
 
     const childService = new ChildService();
     const result = await childService.getFilteredChildren(filters, pagination);

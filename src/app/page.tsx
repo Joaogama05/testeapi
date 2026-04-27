@@ -22,6 +22,7 @@ async function ListData({ searchParams }: { searchParams: { [key: string]: strin
   if (searchParams.bairro) filters.bairro = searchParams.bairro;
   if (searchParams.tem_alertas) filters.tem_alertas = searchParams.tem_alertas === 'true';
   if (searchParams.revisado) filters.revisado = searchParams.revisado === 'true';
+  if (searchParams.search) filters.search = searchParams.search;
 
   const result = await service.getFilteredChildren(filters, { page, limit });
   
