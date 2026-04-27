@@ -56,7 +56,8 @@ export function ChildCard({ child, onReview }: { child: Child, onReview: (id: st
       <div className="pt-3 border-t border-slate-100 dark:border-slate-700 flex justify-end">
         <button 
           onClick={() => onReview(child.id, child.revisado)}
-          className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${child.revisado ? 'text-slate-600 bg-slate-100 hover:bg-slate-200 dark:text-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600' : 'text-white bg-indigo-600 hover:bg-indigo-700'}`}
+          aria-label={child.revisado ? `Desfazer revisão de ${child.nome || 'criança sem nome'}` : `Marcar ${child.nome || 'criança sem nome'} como revisado`}
+          className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors focus:ring-2 focus:ring-indigo-500 focus:outline-none ${child.revisado ? 'text-slate-600 bg-slate-100 hover:bg-slate-200 dark:text-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600' : 'text-white bg-indigo-600 hover:bg-indigo-700'}`}
         >
           {child.revisado ? 'Desfazer Revisão' : 'Marcar como Revisado'}
         </button>
@@ -67,7 +68,7 @@ export function ChildCard({ child, onReview }: { child: Child, onReview: (id: st
 
 export function ChildCardSkeleton() {
   return (
-    <div className="bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-slate-100 dark:border-slate-700 animate-pulse">
+    <div role="status" aria-label="Carregando dados da criança" className="bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-slate-100 dark:border-slate-700 animate-pulse">
       <div className="flex justify-between items-start mb-3">
         <div className="space-y-2">
           <div className="h-5 w-32 bg-slate-200 dark:bg-slate-700 rounded"></div>

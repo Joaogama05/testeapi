@@ -71,9 +71,12 @@ export function ChildList({
   return (
     <div className="space-y-6">
       {/* Filters */}
-      <div className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-900/50 p-4 rounded-lg border border-slate-100 dark:border-slate-800">
+      <nav aria-label="Filtros de busca" className="flex flex-col sm:flex-row gap-4 bg-slate-50 dark:bg-slate-900/50 p-4 rounded-lg border border-slate-100 dark:border-slate-800">
         <input
           type="text"
+          id="search-input"
+          aria-label="Buscar por nome ou ID"
+          title="Digite o nome ou ID para buscar"
           placeholder="Buscar por nome ou ID..."
           className="flex-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
           defaultValue={currentFilters.search || ""}
@@ -86,6 +89,9 @@ export function ChildList({
         />
 
         <select 
+          id="status-filter"
+          aria-label="Filtrar por Status de Revisão"
+          title="Selecione o status de revisão"
           className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
           value={currentFilters.revisado !== undefined ? currentFilters.revisado.toString() : ""}
           onChange={(e) => handleFilterChange("revisado", e.target.value)}
@@ -96,6 +102,9 @@ export function ChildList({
         </select>
 
         <select 
+          id="alert-filter"
+          aria-label="Filtrar por Alertas"
+          title="Selecione se deseja ver crianças com alertas"
           className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
           value={currentFilters.tem_alertas !== undefined ? currentFilters.tem_alertas.toString() : ""}
           onChange={(e) => handleFilterChange("tem_alertas", e.target.value)}
@@ -104,44 +113,48 @@ export function ChildList({
           <option value="true">Com Alerta</option>
           <option value="false">Sem Alerta</option>
         </select>
-      </div>
+      </nav>
 
       {/* Grid of Cards */}
-      {data.length === 0 ? (
-        <div className="text-center py-12 text-slate-500 dark:text-slate-400">
-          Nenhuma criança encontrada com os filtros atuais.
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {data.map(child => (
-            <ChildCard key={child.id} child={child} onReview={handleReview} />
-          ))}
-        </div>
-      )}
+      <div role="region" aria-live="polite" aria-label="Lista de Crianças">
+        {data.length === 0 ? (
+          <div className="text-center py-12 text-slate-500 dark:text-slate-400">
+            Nenhuma criança encontrada com os filtros atuais.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {data.map(child => (
+              <ChildCard key={child.id} child={child} onReview={handleReview} />
+            ))}
+          </div>
+        )}
+      </div>
 
       {/* Pagination */}
       {meta && meta.last_page > 1 && (
-        <div className="flex justify-between items-center pt-4 border-t border-slate-100 dark:border-slate-800">
-          <p className="text-sm text-slate-500 dark:text-slate-400">
+        <nav aria-label="Paginação" className="flex justify-between items-center pt-4 border-t border-slate-100 dark:border-slate-800">
+          <p className="text-sm text-slate-500 dark:text-slate-400" aria-live="polite">
             Mostrando página {meta.page} de {meta.last_page} ({meta.total} registros)
           </p>
           <div className="flex gap-2">
             <button 
               onClick={() => handlePageChange(meta.page - 1)}
               disabled={meta.page <= 1}
-              className="px-3 py-1 border border-slate-200 dark:border-slate-700 rounded-md text-sm disabled:opacity-50 hover:bg-slate-50 dark:hover:bg-slate-800"
+              aria-label="Página Anterior"
+              className="px-3 py-1 border border-slate-200 dark:border-slate-700 rounded-md text-sm disabled:opacity-50 hover:bg-slate-50 dark:hover:bg-slate-800 focus:ring-2 focus:ring-indigo-500 outline-none"
             >
               Anterior
             </button>
             <button 
               onClick={() => handlePageChange(meta.page + 1)}
               disabled={meta.page >= meta.last_page}
-              className="px-3 py-1 border border-slate-200 dark:border-slate-700 rounded-md text-sm disabled:opacity-50 hover:bg-slate-50 dark:hover:bg-slate-800"
+              aria-label="Próxima Página"
+              className="px-3 py-1 border border-slate-200 dark:border-slate-700 rounded-md text-sm disabled:opacity-50 hover:bg-slate-50 dark:hover:bg-slate-800 focus:ring-2 focus:ring-indigo-500 outline-none"
             >
               Próxima
             </button>
           </div>
-        </div>
+        </nav>
       )}
     </div>
   );

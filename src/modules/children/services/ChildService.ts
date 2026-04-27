@@ -112,6 +112,27 @@ export class ChildService {
     return child;
   }
 
+  public async getNeighborhoodMetrics() {
+    const allChildren = await this.repository.findAll();
+    
+    const metricsMap = allChildren.reduce((acc, child) => {
+      const bairro = child.bairro || 'Não informado';
+      if (!acc[bairro]) {
+        acc[bairro] = { name: bairro, total: 0, com_alertas: 0 };
+      }
+      
+      acc[bairro].total++;
+      if (this.hasAnyAlert(child)) {
+        acc[bairro].com_alertas++;
+      }
+      
+      return acc;
+    }, {} as Record<string, { name: string; total: number; com_alertas: number }>);
+    
+    // Convert to array and sort by total descending
+    return Object.values(metricsMap).sort((a, b) => b.total - a.total);
+  }
+
   public async getChildById(id: string): Promise<Child | null> {
     return this.repository.findById(id);
   }

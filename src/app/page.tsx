@@ -1,5 +1,6 @@
 import { DashboardSummary, DashboardSummarySkeleton } from "@/components/ui/DashboardSummary";
 import { ChildList } from "@/components/ui/ChildList";
+import { DashboardCharts } from "@/components/ui/DashboardCharts";
 import { ChildService } from "@/modules/children/services/ChildService";
 import { Suspense } from "react";
 import { ChildCardSkeleton } from "@/components/ui/ChildCard";
@@ -8,8 +9,15 @@ export const dynamic = 'force-dynamic';
 
 async function SummaryData() {
   const service = new ChildService();
-  const data = await service.getSummary();
-  return <DashboardSummary data={data} />;
+  const summary = await service.getSummary();
+  const chartData = await service.getNeighborhoodMetrics();
+  
+  return (
+    <>
+      <DashboardSummary data={summary} />
+      <DashboardCharts data={chartData} />
+    </>
+  );
 }
 
 async function ListData({ searchParams }: { searchParams: { [key: string]: string | undefined } }) {

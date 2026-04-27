@@ -1,0 +1,6 @@
+feat: implement nice-to-have bonus features (Dark Mode, A11y, Charts)
+
+- Implementação do botão manual de alternância de Tema (Claro/Escuro) utilizando next-themes e lucide-react.
+- Inserção de atributos ARIA (aria-label, aria-live, roles) e focus visível (focus:ring) para acessibilidade plena do teclado e leitores de tela em componentes chave.
+- Adição da biblioteca recharts e criação do DashboardCharts exibindo estatísticas de alertas cruzadas por Bairro.
+- Atualização do backend (ChildService) para computar e servir os agregados dos bairros.
