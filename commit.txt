@@ -1,4 +1,4 @@
-fix(data): persist review status to seed.json file
+fix(data): bypass next.js HMR and worker cache by reading directly from disk
 
-- Adicionada a gravação em disco (fs.writeFileSync) no método update() do ChildRepository.
-- Isso garante que, mesmo não utilizando um banco de dados real (ORM), o estado das crianças não seja perdido caso o servidor de desenvolvimento reinicie ou o contêiner Docker sofra reload.
+- Substituição completa do padrão in-memory (Map) no ChildRepository por leitura/escrita atômica em disco a cada requisição.
+- Resolve o bug de sincronia onde o cache de desenvolvimento do Next.js (HMR) revertia visualmente o status "Revisado" após um router.refresh() renderizar um worker com memória desatualizada.
