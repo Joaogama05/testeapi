@@ -53,6 +53,12 @@ export function ChildList({
         body: JSON.stringify({ revisado: !currentStatus })
       });
       
+      if (res.status === 401) {
+        alert("Sessão expirada. Redirecionando para o login...");
+        window.location.href = '/login';
+        return;
+      }
+      
       if (!res.ok) {
         // Revert on error
         setData(prev => prev.map(c => c.id === id ? { ...c, revisado: currentStatus } : c));

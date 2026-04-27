@@ -1,4 +1,4 @@
-feat(data): replace mock seed with real production seed data
+fix(auth): redirect to login on API 401 Unauthorized during client interaction
 
-- Atualização do arquivo `seed.json` contendo o payload real do desafio (crianças de c001 a c025).
-- A aplicação já está arquitetada para puxar esses novos dados dinamicamente, mantendo paginação e filtros funcionando 100%.
+- O middleware JWT na borda (Edge) já expulsava usuários sem sessão ao navegar pelas páginas (SSR).
+- Adicionada regra no `ChildList` para que, caso a sessão expire enquanto a pessoa está usando a tela e ela dispare um PATCH para a API, a resposta 401 force um redirecionamento limpo para o login em vez de causar erro silencioso.
