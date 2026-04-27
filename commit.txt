@@ -1,4 +1,4 @@
-fix(ui): correct tailwind v4 dark mode variant syntax
+fix(data): persist review status to seed.json file
 
-- Correção de sintaxe no `globals.css`. A diretiva `@variant dark { @theme }` causava falha no parse do Tailwind v4.
-- Substituída por `@layer base { .dark { ... } }`, fazendo com que as classes `dark:bg-slate-900` e similares voltem a funcionar quando ativadas pelo next-themes.
+- Adicionada a gravação em disco (fs.writeFileSync) no método update() do ChildRepository.
+- Isso garante que, mesmo não utilizando um banco de dados real (ORM), o estado das crianças não seja perdido caso o servidor de desenvolvimento reinicie ou o contêiner Docker sofra reload.

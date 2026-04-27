@@ -63,5 +63,15 @@ export class ChildRepository {
       throw new Error(`Child with id ${child.id} not found.`);
     }
     this.data.set(child.id, child);
+    
+    // Persistindo em disco para o desafio parecer um banco real
+    try {
+      const seedPath = path.join(process.cwd(), 'src', 'data', 'seed.json');
+      const allData = Array.from(this.data.values());
+      fs.writeFileSync(seedPath, JSON.stringify(allData, null, 2), 'utf-8');
+      console.log(`[ChildRepository] - Estado salvo no disco (seed.json).`);
+    } catch (e) {
+      console.error('[ChildRepository] - Erro ao salvar no disco:', e);
+    }
   }
 }
