@@ -7,8 +7,8 @@
   --color-foreground: #0f172a;
 }
 
-@variant dark {
-  @theme {
+@layer base {
+  .dark {
     --color-background: #0f172a;
     --color-foreground: #f8fafc;
   }
