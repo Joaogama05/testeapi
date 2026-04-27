@@ -3,17 +3,22 @@ import type { NextRequest } from 'next/server';
 import { jwtVerify } from 'jose';
 
 export async function proxy(request: NextRequest) {
-  const authHeader = request.headers.get('authorization');
-
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    console.error('Edge Proxy: Missing or invalid Authorization header');
-    return NextResponse.json(
-      { error: 'Unauthorized: Missing or malformed token' },
-      { status: 401 }
-    );
+  const { pathname } = request.nextUrl;
+  
+  if (pathname === '/login' || pathname.startsWith('/api/auth')) {
+    return NextResponse.next();
   }
 
-  const token = authHeader.split(' ')[1];
+  const cookieToken = request.cookies.get('token')?.value;
+  const authHeader = request.headers.get('authorization');
+  const token = cookieToken || (authHeader?.startsWith('Bearer ') ? authHeader.split(' ')[1] : null);
+
+  if (!token) {
+    if (pathname.startsWith('/api')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
 
   try {
     const secret = new TextEncoder().encode(
@@ -32,13 +37,18 @@ export async function proxy(request: NextRequest) {
     });
   } catch (error) {
     console.error('Edge Proxy: Token validation failed', error);
-    return NextResponse.json(
-      { error: 'Unauthorized: Invalid token' },
-      { status: 401 }
-    );
+    
+    const response = pathname.startsWith('/api') 
+      ? NextResponse.json({ error: 'Unauthorized: Invalid token' }, { status: 401 })
+      : NextResponse.redirect(new URL('/login', request.url));
+      
+    response.cookies.delete('token');
+    return response;
   }
 }
 
 export const config = {
-  matcher: ['/api/children/:id*/review'],
+  matcher: [
+    '/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
+  ],
 };

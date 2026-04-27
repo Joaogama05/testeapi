@@ -1,9 +1,9 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { ChildService } from '@/modules/children/services/ChildService';
 
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const { id } = params;
+    const { id } = await params;
     
     let body;
     try {

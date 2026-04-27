@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Plataforma de Monitoramento de Crianças em Situação de Vulnerabilidade
 
-## Getting Started
+Sistema SaaS focado em alta resiliência e performance, desenvolvido para técnicos de campo. Permite o acompanhamento unificado de dados provindos de diferentes secretarias (Saúde, Educação, Social), lidando com inconsistências e garantindo atualizações otimistas.
 
-First, run the development server:
+## 🚀 Decisões Arquiteturais e Trade-offs
 
+### 1. In-Memory Database (MVP)
+Para fins de desafio/MVP, o `ChildRepository` foi construído com padrão Singleton gerenciando um `Map` em memória. 
+- **Trade-off:** Alta performance (latência $O(1)$) para leitura, porém sem persistência no disco. Em produção, este repositório seria substituído por PostgreSQL (com Prisma).
+
+### 2. Edge Proxy & Segurança JWT
+Substituímos o tradicional `middleware.ts` pela nova API `proxy.ts` (Next 16). 
+- **Decisão:** Validação super rápida na borda utilizando a biblioteca `jose`, rejeitando requisições inválidas antes mesmo de tocarem a infraestrutura principal.
+
+### 3. Tailwind v4 & Glassmorphism
+O sistema visual não utiliza pacotes pesados de componentes (MUI/Ant). Em vez disso, foi criado um design system direto via Tailwind CSS puro focado na performance de mobile-first.
+
+### 4. Filtros no Backend & O(N) Summary
+- **Filtros Pipeline:** Em vez de blocos `if` aninhados, a busca utiliza uma cadeia de handlers escalável.
+- **Sumário O(N):** As métricas do dashboard rodam em apenas um laço (loop) em memória, extraindo 4 indicadores cruciais simultaneamente sem gargalos.
+
+### 5. Client-Side Optimistic Updates
+Quando o técnico marca um registro como "Revisado", o estado visual muda no mesmo milissegundo (UX zero-latency). O rollback ocorre transparentemente se a Promise falhar.
+
+## 🐳 Dockerização
+A aplicação está 100% conteinerizada com Node 20 alpine.
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+docker-compose up --build
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Isso levantará a aplicação na porta `3000`, espelhando a exata imagem de produção.
