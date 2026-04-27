@@ -1,4 +1,4 @@
-fix(data): bypass next.js HMR and worker cache by reading directly from disk
+feat(data): replace mock seed with real production seed data
 
-- Substituição completa do padrão in-memory (Map) no ChildRepository por leitura/escrita atômica em disco a cada requisição.
-- Resolve o bug de sincronia onde o cache de desenvolvimento do Next.js (HMR) revertia visualmente o status "Revisado" após um router.refresh() renderizar um worker com memória desatualizada.
+- Atualização do arquivo `seed.json` contendo o payload real do desafio (crianças de c001 a c025).
+- A aplicação já está arquitetada para puxar esses novos dados dinamicamente, mantendo paginação e filtros funcionando 100%.
