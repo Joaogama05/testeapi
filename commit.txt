@@ -1,4 +1,5 @@
-fix(auth): revert to proxy.ts for Next.js 16.2.4 Edge compatibility
+fix(layout): prevent flex/grid blowout causing horizontal viewport scaling on mobile
 
-- A versão experimental Turbopack do Next.js 16.2 exige que o arquivo seja nomeado `proxy.ts` em vez de `middleware.ts`.
-- Renomear o arquivo com o servidor de desenvolvimento rodando causava travamentos 500. A reversão estabiliza o servidor.
+- Adicionado `overflow-x-hidden` no body para forçar o viewport a respeitar 100vw, evitando vazamento horizontal que "encolhe" o layout principal.
+- Adicionado `min-w-0` e `overflow-hidden` no container do Recharts para garantir que o SVG redimensione perfeitamente sem forçar a largura do grid parent.
+- Adicionado `break-words` nas tags de alertas dos cards para evitar que textos sem espaços (ex: `cadastro_desatualizado`) quebrem o limite do card em celulares pequenos.

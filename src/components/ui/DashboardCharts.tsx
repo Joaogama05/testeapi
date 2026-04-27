@@ -8,7 +8,7 @@ export function DashboardCharts({ data }: { data: any[] }) {
   return (
     <div className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-100 dark:border-slate-700 mt-8 mb-8">
       <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-6">Mapeamento por Bairro</h3>
-      <div className="h-72 w-full">
+      <div className="h-72 w-full min-w-0 overflow-hidden">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={data}

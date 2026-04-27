@@ -39,7 +39,7 @@ export default async function RootLayout({
 
   return (
     <html lang="pt-BR" suppressHydrationWarning>
-      <body className={`${inter.className} antialiased bg-slate-50 dark:bg-slate-900 min-h-screen flex flex-col`}>
+      <body className={`${inter.className} antialiased bg-slate-50 dark:bg-slate-900 min-h-screen flex flex-col overflow-x-hidden`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
